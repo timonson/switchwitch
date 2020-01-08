@@ -1,3 +1,9 @@
+function createElementFromHTML(htmlString) {
+  var div = document.createElement("div")
+  div.innerHTML = htmlString.trim()
+  return div.firstElementChild
+}
+
 function makeObserver(generatorFunction) {
   return function(...args) {
     const generatorObject = generatorFunction(...args)
@@ -57,7 +63,9 @@ function defineSwitchWitch(tag, template) {
   class SwitchWitch extends HTMLElement {
     constructor() {
       super()
-      this.attachShadow({ mode: "open" }).appendChild(template.cloneNode(true))
+      this.attachShadow({ mode: "open" }).appendChild(
+        createElementFromHTML(template).content.cloneNode(true)
+      )
       this.index = parseInt(this.getAttribute("index")) || 0
       this.querySelectorAll("li").forEach((node, i) => {
         if (i === this.index) node.className = "active-index"
