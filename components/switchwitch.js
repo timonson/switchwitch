@@ -1,14 +1,3 @@
-function createElementFromHTML(htmlString) {
-  var div = document.createElement("div")
-  div.innerHTML = htmlString.trim()
-  return div.firstElementChild
-}
-async function requestHtmlString(filePath) {
-  return fetch(filePath).then(response => response.text())
-}
-async function createTemplateElement(filePath) {
-  return createElementFromHTML(await requestHtmlString(filePath)).content
-}
 function makeObserver(generatorFunction) {
   return function(...args) {
     const generatorObject = generatorFunction(...args)
@@ -16,6 +5,7 @@ function makeObserver(generatorFunction) {
     return generatorObject
   }
 }
+
 function handleElements([demoDescription, demoMedia], data) {
   const [demoH2, demoP] = demoDescription.children
   return function(index) {
@@ -28,6 +18,7 @@ function handleElements([demoDescription, demoMedia], data) {
 async function* observer(index, demoElement, selectedElement, data) {
   const updateElements = handleElements(demoElement.children, data)
   updateElements(index)
+  console.log(index)
   while (true) {
     const event = yield
     const selectedElementOld = selectedElement
@@ -62,9 +53,7 @@ async function* observer(index, demoElement, selectedElement, data) {
   }
 }
 
-async function defineCustomElement(tag, templatePath) {
-  const template = await createTemplateElement(templatePath)
-
+function defineSwitchWitch(tag, template) {
   class SwitchWitch extends HTMLElement {
     constructor() {
       super()
@@ -74,15 +63,26 @@ async function defineCustomElement(tag, templatePath) {
         if (i === this.index) node.className = "active-index"
         node.onclick = event => this.updateGraphics.next(event)
       })
+      // race condition:
+      if (this.data) this.start(this.data)
+      else
+        Object.defineProperty(this, "data", {
+          set(input) {
+            this.start(input)
+          },
+        })
+    }
+    start(data) {
       this.updateGraphics = makeObserver(observer)(
         this.index,
         this.shadowRoot.querySelectorAll(".demo-animation")[0],
         this.querySelector(".active-index"),
-        this.data
+        data
       )
     }
   }
+
   customElements.define(tag, SwitchWitch)
 }
 
-defineCustomElement("switch-witch", "./template.html")
+export { defineSwitchWitch }
