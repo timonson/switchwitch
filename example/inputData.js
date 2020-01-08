@@ -28,10 +28,10 @@ const codeString = `h(
 )
 `
 const mediaArray = [
-  `<img src="./img/01-cat350x.jpeg"></img>`,
-  `<img src="./img/02-cat350x.jpeg"></img>`,
+  `<img src="./example/img/01-cat350x.jpeg"></img>`,
+  `<img src="./example/img/02-cat350x.jpeg"></img>`,
   `<pre><code>${codeString}</code></pre>`,
-  `<img src="./img/03-cat350x.jpeg"></img>`,
+  `<img src="./example/img/03-cat350x.jpeg"></img>`,
   `<pre><code>${codeString}</code></pre>`,
 ]
 
