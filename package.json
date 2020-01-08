@@ -1,0 +1,24 @@
+{
+  "name": "switchwitch",
+  "version": "1.0.0",
+  "description": "Web Component using Shadow DOM - Switch various medias gracefully",
+  "main": "script.js",
+  "scripts": {
+    "test": "https://timonson.github.io/switchwitch/",
+    "start": "live-server --entry-file=example/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timonson/switchwitch.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timonson/switchwitch/issues"
+  },
+  "homepage": "https://github.com/timonson/switchwitch#readme",
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
+}

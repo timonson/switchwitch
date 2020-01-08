@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Switcher</title>
+    <link rel="icon" href="data:," />
+    <script type="module" src="../components/switchwitch.js"></script>
+  </head>
+  <body>
+    <switch-witch>
+      <li slot="item">1</li>
+      <li slot="item">2</li>
+      <li slot="item">3</li>
+      <li slot="item">4</li>
+      <li slot="item">5</li>
+    </switch-witch>
+    <switch-witch index="2">
+      <li slot="item">1</li>
+      <li slot="item">2</li>
+      <li slot="item">3</li>
+      <li slot="item">4</li>
+      <li slot="item">5</li>
+    </switch-witch>
+    <script type="module">
+      import data from "./example/inputData.js"
+      const switchWitch1 = document.querySelector("switch-witch")
+      const switchWitch2 = document.querySelectorAll("switch-witch")[1]
+      switchWitch1.data = data
+      switchWitch2.data = data
+    </script>
+  </body>
+</html>
