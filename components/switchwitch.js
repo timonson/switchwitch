@@ -24,7 +24,6 @@ function handleElements([demoDescription, demoMedia], data) {
 async function* observer(index, demoElement, selectedElement, data) {
   const updateElements = handleElements(demoElement.children, data)
   updateElements(index)
-  console.log(index)
   while (true) {
     const event = yield
     const selectedElementOld = selectedElement

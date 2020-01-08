@@ -1,6 +1,6 @@
 import { defineSwitchWitch } from "./components/switchwitch.js"
 
-async function requestHtmlString(filePath) {
+function requestHtmlString(filePath) {
   return fetch(filePath).then(response => response.text())
 }
 

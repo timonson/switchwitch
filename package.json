@@ -1,7 +1,7 @@
 {
   "name": "switchwitch",
   "version": "1.0.0",
-  "description": "Web Component using Shadow DOM - Switch various medias gracefully",
+  "description": "Web Component using Shadow DOM - Switch various media gracefully",
   "main": "script.js",
   "scripts": {
     "test": "https://timonson.github.io/switchwitch/",
