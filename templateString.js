@@ -2,7 +2,7 @@ export const templateString = `
 <template id="switcher-template">
   <style>
     :host {
-      display: inline-block;
+      display: block;
       box-sizing: border-box;
       margin: 1em;
       width: 45em;
