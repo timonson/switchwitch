@@ -7,14 +7,14 @@
     <script type="module" src="./template-helpers.js"></script>
   </head>
   <body>
-    <switch-witch>
-      <li slot="item">1</li>
-      <li slot="item">2</li>
-      <li slot="item">3</li>
-      <li slot="item">4</li>
-      <li slot="item">5</li>
+    <switch-witch width="50em" height="25em" loop="4000" color="#f0ede2">
+      <li slot="item">A</li>
+      <li slot="item">B</li>
+      <li slot="item">C</li>
+      <li slot="item">D</li>
+      <li slot="item">E</li>
     </switch-witch>
-    <switch-witch index="2">
+    <switch-witch>
       <li slot="item">1</li>
       <li slot="item">2</li>
       <li slot="item">3</li>
@@ -23,8 +23,9 @@
     </switch-witch>
     <script type="module">
       import data from "./example/inputData.js"
-      const switchWitch1 = document.querySelector("switch-witch")
-      const switchWitch2 = document.querySelectorAll("switch-witch")[1]
+      const [switchWitch1, switchWitch2] = document.querySelectorAll(
+        "switch-witch"
+      )
       switchWitch1.data = data
       switchWitch2.data = data
     </script>
