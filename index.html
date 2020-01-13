@@ -6,19 +6,19 @@
     <link rel="icon" href="data:," />
     <script type="module">
       import { templateString } from "./templateString.js"
-      import { defineSwitchWitch } from "https://cdn.jsdelivr.net/gh/timonson/switchwitch@73a5fa3/components/switchwitch.js"
+      import { defineSwitchWitch } from "https://cdn.jsdelivr.net/gh/timonson/switchwitch@8880e88/components/switchwitch.js"
       defineSwitchWitch("switch-witch", templateString)
     </script>
   </head>
   <body>
-    <switch-witch>
-      <li slot="item">1</li>
-      <li slot="item">2</li>
-      <li slot="item">3</li>
-      <li slot="item">4</li>
-      <li slot="item">5</li>
+    <switch-witch width="50em" height="25em" loop="4000" color="#f0ede2">
+      <li slot="item">A</li>
+      <li slot="item">B</li>
+      <li slot="item">C</li>
+      <li slot="item">D</li>
+      <li slot="item">E</li>
     </switch-witch>
-    <switch-witch index="2">
+    <switch-witch>
       <li slot="item">1</li>
       <li slot="item">2</li>
       <li slot="item">3</li>
@@ -27,9 +27,11 @@
     </switch-witch>
     <script type="module">
       import data from "./inputData.js"
-      const [switch1, switch2] = document.querySelectorAll("switch-witch")
-      switch1.data = data
-      switch2.data = data
+      const [switchWitch1, switchWitch2] = document.querySelectorAll(
+        "switch-witch"
+      )
+      switchWitch1.data = data
+      switchWitch2.data = data
     </script>
   </body>
 </html>

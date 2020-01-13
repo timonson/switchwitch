@@ -4,9 +4,9 @@ export const templateString = `
     :host {
       display: inline-block;
       box-sizing: border-box;
-      width: 50em;
-      height: 25em;
       margin: 1em;
+      width: 45em;
+      height: 22.9em;
     }
     ::slotted(li) {
       list-style: none;
@@ -47,7 +47,6 @@ export const templateString = `
       padding: 2.5em 1.5em;
       height: 90%;
       width: 100%;
-      background-color: #f0ede2;
       border-style: solid;
       border-radius: 0.5em;
       border-color: darkgrey;
@@ -82,13 +81,13 @@ export const templateString = `
       border-width: 0.1em;
       border-radius: 0.5em;
       border-color: silver;
-    }
-    .demo-media pre .highlight-code-function {
-      color: red;
+      overflow: auto;
     }
     .demo-media img {
       height: 100%;
       width: 100%;
+      /* max-width: 100%; */
+      /* max-height: 100%; */
       border-style: solid;
       border-width: 0.05em;
       border-radius: 0.5em;
