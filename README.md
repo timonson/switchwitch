@@ -25,5 +25,5 @@ Click [**here**](https://timonson.github.io/switchwitch/)
 ```
 
 For more check out the
-[**demo-data**](https://github.com/timonson/switchwitch/tree/master/demo-data)
-folder.
+[**demo.html**](https://github.com/timonson/switchwitch/blob/master/demo.html)
+file.
