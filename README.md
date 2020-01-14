@@ -27,3 +27,15 @@ Click [**here**](https://timonson.github.io/switchwitch/)
 For more check out the
 [**demo.html**](https://github.com/timonson/switchwitch/blob/master/demo.html)
 file.
+
+## API
+
+```
+"width",
+"height",
+"color",
+"index",
+"loop",
+"data",
+"item"
+```
