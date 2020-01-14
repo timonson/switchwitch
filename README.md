@@ -1,14 +1,14 @@
 # switchwitch
 
-Web Component using Shadow DOM - Cycle through various media gracefully
-
-## Qick Start
-
-Just serve the `demo.html` file.
+A Web Component using the Shadow DOM - Cycle through various media gracefully.
 
 ## Demo
 
 Click [**here**](https://timonson.github.io/switchwitch/)
+
+## Qick Start
+
+Serve the `demo.html` file to your browser.
 
 ## Example
 
@@ -23,10 +23,6 @@ Click [**here**](https://timonson.github.io/switchwitch/)
   </switch-witch>
 </body>
 ```
-
-For more check out the
-[**demo.html**](https://github.com/timonson/switchwitch/blob/master/demo.html)
-file.
 
 ## API
 
