@@ -72,8 +72,15 @@ function defineSwitchWitch(tag, templateString) {
         node => (node.onclick = event => this.updateGraphics.next(event))
       )
       this.himple = createHimple(this.shadowRoot, false)
+      this.data
+        ? this.start(this.data)
+        : Object.defineProperty(this, "data", {
+            set(data) {
+              this.start(data)
+            },
+          })
     }
-    set data(data) {
+    start(data) {
       ;(this.updateGraphics = generateObserver(
         this.shadowRoot.querySelectorAll(".demo-animation")[0],
         this.listElements.item(0),
@@ -93,7 +100,6 @@ function defineSwitchWitch(tag, templateString) {
           this.style.height = newValue
           break
         case "index":
-          if (!this.updateGraphics) break
           this.updateGraphics.next({
             target: this.listElements.item(newValue),
           })
@@ -136,4 +142,11 @@ function defineSwitchWitch(tag, templateString) {
   return customElements.define(tag, SwitchWitch)
 }
 
-export { defineSwitchWitch }
+function requestString(filePath) {
+  return fetch(filePath).then(response => response.text())
+}
+
+const templateUrl = new URL("./template.html", import.meta.url)
+requestString(templateUrl).then(templateString =>
+  defineSwitchWitch("switch-witch", templateString)
+)

@@ -4,9 +4,7 @@ Web Component using Shadow DOM - Cycle through various media gracefully
 
 ## Qick Start
 
-```shell
-npm start
-```
+Just serve the `demo.html` file.
 
 ## Demo
 
@@ -27,5 +25,5 @@ Click [**here**](https://timonson.github.io/switchwitch/)
 ```
 
 For more check out the
-[**example**](https://github.com/timonson/switchwitch/tree/master/example)
-folder or run `npm start`.
+[**demo-data**](https://github.com/timonson/switchwitch/tree/master/demo-data)
+folder.
