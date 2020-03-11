@@ -1,10 +1,11 @@
 import createHimple from "https://cdn.jsdelivr.net/gh/timonson/himple/himple.js"
 import { handlePageVisibilityChange } from "./handlePageVisibilityChange.js"
+import Template from "./template.js"
 
-function createElementFromHTML(htmlString) {
-  var div = document.createElement("div")
-  div.innerHTML = htmlString.trim()
-  return div.firstElementChild
+function createElementFromHTML(html) {
+  var template = document.createElement("template")
+  template.innerHTML = html
+  return template.content.firstChild
 }
 
 function handleElements([demoDescription, demoMedia], data, himple) {
@@ -26,7 +27,7 @@ function getIndexOfElement(element) {
 async function* generateObserver(demoElement, selectedElement, data, himple) {
   selectedElement.classList.add("active-index")
   const updateElements = handleElements(demoElement.children, data, himple)
-  updateElements(0)
+  updateElements(getIndexOfElement(selectedElement))
   while (true) {
     const selectedElementOld = selectedElement
     selectedElement = (yield event).target
@@ -60,93 +61,114 @@ async function* generateObserver(demoElement, selectedElement, data, himple) {
   }
 }
 
-function defineSwitchWitch(tag, templateString) {
-  class SwitchWitch extends HTMLElement {
-    constructor() {
-      super()
-      this.listElements = this.querySelectorAll("li")
-      this.attachShadow({ mode: "open" }).appendChild(
-        createElementFromHTML(templateString).content.cloneNode(true)
-      )
-      this.listElements.forEach(
-        node => (node.onclick = event => this.updateGraphics.next(event))
-      )
-      this.himple = createHimple(this.shadowRoot, false)
-      this.data
-        ? this.start(this.data)
-        : Object.defineProperty(this, "data", {
-            set(data) {
-              this.start(data)
-            },
-          })
-    }
-    start(data) {
-      ;(this.updateGraphics = generateObserver(
-        this.shadowRoot.querySelectorAll(".demo-animation")[0],
-        this.listElements.item(0),
-        data,
-        this.himple
-      )).next()
-    }
-    static get observedAttributes() {
-      return ["width", "height", "color", "index", "loop"]
-    }
-    attributeChangedCallback(name, oldValue, newValue) {
-      switch (name) {
-        case "width":
-          this.style.width = newValue
-          break
-        case "height":
-          this.style.height = newValue
-          break
-        case "index":
+class SwitchWitch extends HTMLElement {
+  constructor() {
+    super()
+    if (!this.indexes)
+      throw Error("You must set attribute 'indexes'. E.g. '12345'!")
+    this.attachShadow({ mode: "open" }).innerHTML = Template.render([
+      ...this.indexes,
+    ])
+    this.dom = Template.mapDOM(this.shadowRoot)
+    this.dom.listElements.forEach(
+      node => (node.onclick = event => this.updateGraphics.next(event))
+    )
+    this._himple = createHimple(this.shadowRoot, false)
+    this._startIntervalling = (counter, time) => {
+      return setInterval(
+        () =>
           this.updateGraphics.next({
-            target: this.listElements.item(newValue),
-          })
-          break
-        case "color":
-          this.shadowRoot.querySelector(
-            ".demo-element"
-          ).style.backgroundColor = newValue
-          break
-        case "loop":
-          let counter = 0
-          const startIntervalling = (counter, time) => {
-            return setInterval(
-              () =>
-                this.updateGraphics.next({
-                  target: this.listElements.item(
-                    counter < 4 ? ++counter : (counter = 0)
-                  ),
-                }),
-              time
-            )
-          }
-          this.cancelId = startIntervalling(counter, newValue)
-          handlePageVisibilityChange(
-            () => clearInterval(this.cancelId),
-            () =>
-              (this.cancelId = startIntervalling(
-                getIndexOfElement(this.querySelector(".active-index")),
-                newValue
-              ))
-          )
-          break
-      }
-    }
-    disconnectedCallback() {
-      clearInterval(this.cancelId)
+            target: this.dom.listElements.item(
+              ++counter < this.dom.listElements.length ? counter : (counter = 0)
+            ),
+          }),
+        time
+      )
+      handlePageVisibilityChange(
+        () => clearInterval(this.cancelId),
+        () =>
+          (this.cancelId = this._startIntervalling(
+            getIndexOfElement(this.querySelector(".active-index")),
+            newValue
+          ))
+      )
     }
   }
-
-  return customElements.define(tag, SwitchWitch)
+  _start(data) {
+    this.updateGraphics = generateObserver(
+      this.dom.demoAnimation,
+      this.dom.listElements.item(this.activeIndex),
+      data,
+      this._himple
+    )
+    this.updateGraphics.next()
+    if (this.loop)
+      this.cancelId = this._startIntervalling(this.activeIndex, this.loop)
+  }
+  set indexes(indexes) {
+    this.setAttribute("indexes", indexes)
+  }
+  get indexes() {
+    return this.getAttribute("indexes")
+  }
+  set loop(time) {
+    this.setAttribute("loop", time)
+  }
+  get loop() {
+    return this.getAttribute("loop")
+  }
+  set activeIndex(number) {
+    this.setAttribute("active-index", number)
+  }
+  get activeIndex() {
+    return this.getAttribute("active-index")
+  }
+  set data(data) {
+    this._data = data
+    this._start(data)
+  }
+  get data() {
+    return this._data
+  }
+  static get observedAttributes() {
+    return ["width", "height", "color", "border-color", "active-index", "loop"]
+  }
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch (name) {
+      case "width":
+        this.style.width = newValue
+        break
+      case "height":
+        this.style.height = newValue
+        break
+      case "active-index":
+        if (this.updateGraphics) {
+          this.updateGraphics.next({
+            target: this.dom.listElements.item(newValue),
+          })
+        }
+        break
+      case "color":
+        this.dom.demoElement.style.backgroundColor = newValue
+        break
+      case "border-color":
+        this.style.setProperty("--border-color", newValue)
+        break
+      case "loop":
+        if (this.updateGraphics) {
+          clearInterval(this.cancelId)
+          this.cancelId = this._startIntervalling(this.activeIndex, this.loop)
+        }
+        break
+    }
+  }
+  disconnectedCallback() {
+    clearInterval(this.cancelId)
+  }
+  static get is() {
+    return "switch-witch"
+  }
 }
+customElements.define(SwitchWitch.is, SwitchWitch)
 
-function requestString(filePath) {
-  return fetch(filePath).then(response => response.text())
-}
-
-const templateUrl = new URL("./template.html", import.meta.url)
-requestString(templateUrl).then(templateString =>
-  defineSwitchWitch("switch-witch", templateString)
-)
+export { SwitchWitch }
