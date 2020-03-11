@@ -4,7 +4,7 @@ A Web Component using the Shadow DOM - Cycle through various media gracefully.
 
 ## Demo
 
-Click [**here**](https://timonson.github.io/switchwitch/).
+[Click](https://timonson.github.io/switchwitch/).
 
 ## Qick Start
 
@@ -14,13 +14,19 @@ Serve the file `demo.html` to your browser.
 
 ```html
 <body>
-  <switch-witch width="50em" height="25em" loop="4000" color="#f0ede2">
-    <li slot="item">A</li>
-    <li slot="item">B</li>
-    <li slot="item">C</li>
-    <li slot="item">D</li>
-    <li slot="item">E</li>
+  <switch-witch
+    id="switcher"
+    indexes="ABCDE"
+    width="50em"
+    height="25em"
+    loop="4000"
+    color="#f0ede2"
+  >
   </switch-witch>
+  <script type="module">
+    import data from "./demo-data/inputData.js"
+    switcher.data = data
+  </script>
 </body>
 ```
 
@@ -30,7 +36,9 @@ Serve the file `demo.html` to your browser.
 "width",
 "height",
 "color",
-"index",
+"border-color",
+"indexes",
+"active-index",
 "loop",
 "data",
 "item"
