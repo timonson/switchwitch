@@ -4,11 +4,11 @@ A Web Component using the Shadow DOM - Cycle through various media gracefully.
 
 ## Demo
 
-Click [**here**](https://timonson.github.io/switchwitch/)
+Click [**here**](https://timonson.github.io/switchwitch/).
 
 ## Qick Start
 
-Serve the `demo.html` file to your browser.
+Serve the file `demo.html` to your browser.
 
 ## Example
 
